@@ -8,9 +8,7 @@ You will implement data fetching based on the show ID in the URL, handle loading
 
 This project will demonstrate your ability to work with dynamic routes, manage state across pages, handle asynchronous data, and create a clean, maintainable React codebase.
 
-
 ![alt text](<Show Page Podcast.png>)
-
 
 ---
 
