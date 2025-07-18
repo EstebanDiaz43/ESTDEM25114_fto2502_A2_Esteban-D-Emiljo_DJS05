@@ -1,5 +1,7 @@
 import { formatDate } from "../utils/formatDate";
 import styles from "./PodcastCard.module.css";
+import React, { useState } from "react";
+import Modal from "./Modal";
 
 /**
  * Renders a single podcast preview card with image, title, number of seasons,
