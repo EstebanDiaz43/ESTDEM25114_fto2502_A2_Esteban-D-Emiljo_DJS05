@@ -19,6 +19,16 @@ import Modal from "./Modal";
  * @returns {JSX.Element} The rendered podcast card component.
  */
 export default function PodcastCard({ podcast, genres }) {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleCardClick = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
   const genreSpans = podcast.genres.map((id) => {
     const match = genres.find((genre) => genre.id === id);
     return (
@@ -29,15 +39,24 @@ export default function PodcastCard({ podcast, genres }) {
   });
 
   return (
-    <div className={styles.card}>
-      <img src={podcast.image} alt={podcast.title} />
+    <>
+      <div className={styles.card} onClick={handleCardClick}>
+        <img src={podcast.image} alt={podcast.title} />
+        <h3>{podcast.title}</h3>
+        <p className={styles.seasons}>{podcast.seasons} seasons</p>
+        <div className={styles.tags}>{genreSpans}</div>
+        <p className={styles.updatedText}>
+          Updated {formatDate(podcast.updated)}
+        </p>
+      </div>
 
-      <h3>{podcast.title}</h3>
-      <p className={styles.seasons}>{podcast.seasons} seasons</p>
-      <div className={styles.tags}>{genreSpans}</div>
-      <p className={styles.updatedText}>
-        Updated {formatDate(podcast.updated)}
-      </p>
-    </div>
+      <Modal isOpen={isModalOpen} onClose={closeModal}>
+        <h2>{podcast.title}</h2>
+        <p>{podcast.description}</p>
+        <img src={podcast.image} alt={podcast.title} />
+        <p className={styles.seasons}>{podcast.seasons} seasons</p>
+        <div className={styles.tags}>{genreSpans}</div>
+      </Modal>
+    </>
   );
 }
