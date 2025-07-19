@@ -51,11 +51,20 @@ export default function PodcastCard({ podcast, genres }) {
       </div>
 
       <Modal isOpen={isModalOpen} onClose={closeModal}>
-        <h2>{podcast.title}</h2>
-        <p>{podcast.description}</p>
-        <img src={podcast.image} alt={podcast.title} />
-        <p className={styles.seasons}>{podcast.seasons} seasons</p>
-        <div className={styles.tags}>{genreSpans}</div>
+        <div>
+          <img className="modalImage" src={podcast.image} alt={podcast.title} />
+        </div>
+        <div>
+          <h3 className="Modalheader">{podcast.title}</h3>
+          <p className="ModalDescription">{podcast.description}</p>
+          <div className="modalDetails">
+            <p className={styles.seasons}>{podcast.seasons} seasons</p>
+            <div className={styles.tags}>{genreSpans}</div>
+            <p className="ModalUpdatedText">
+              Updated {formatDate(podcast.updated)}
+            </p>
+          </div>
+        </div>
       </Modal>
     </>
   );
