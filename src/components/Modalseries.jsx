@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import "./Series.css"; // Assuming you have a CSS file for styling
+import "./Series.css";
+import SeasonScroller from "./SeasonScroller.jsx";
 
 const Modalseries = ({ seriesId }) => {
   const [seriesData, setSeriesData] = useState(null);
@@ -68,7 +69,9 @@ const Modalseries = ({ seriesId }) => {
       <div className="series-details">
         {seriesData.seasons && seriesData.seasons.length > 0 ? (
           <div className="seasons-container">
-            <h3>All Seasons & Episodes</h3>
+            <h3>Current season</h3>
+            <SeasonScroller seasons={seriesData.seasons} />
+            <div className="seasons-list"></div>
             {seriesData.seasons.map((season, seasonIndex) => (
               <div
                 key={`season-${seriesId}-${season.season || seasonIndex}`}
