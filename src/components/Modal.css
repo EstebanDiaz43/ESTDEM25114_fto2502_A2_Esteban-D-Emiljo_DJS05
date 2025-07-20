@@ -13,18 +13,25 @@
 
 .modal-content {
   display: flex;
+  flex-direction: column;
   background: white;
   padding: 1rem;
   border-radius: 8px;
   max-width: 850px;
   width: 90%;
-  max-height: 100vh;
+  max-height: 1000vh;
   overflow-y: auto;
   position: absolute;
-  top: 30%;
+  top: 50%;
   left: 50%;
+  bottom: -40%;
   transform: translate(-50%, -50%);
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.modal-top {
+  display: flex;
+  flex-direction: row;
 }
 
 .modal-close-button {
