@@ -2,13 +2,61 @@ import React, { useState, useEffect } from "react";
 import "./Series.css";
 import SeasonScroller from "./SeasonScroller.jsx";
 
+/**
+ * Modalseries component that fetches and displays detailed series information
+ * including seasons and episodes for a specific podcast series.
+ *
+ * @component
+ * @param {Object} props - The component props
+ * @param {string|number} props.seriesId - The unique identifier for the podcast series
+ * @returns {JSX.Element|null} The rendered series details component or null if no data
+ *
+ * @example
+ * // Usage in a modal or container
+ * <Modalseries seriesId="12345" />
+ *
+ * @example
+ * // Inside a modal component
+ * <Modal isOpen={isOpen} onClose={onClose}>
+ *   <Modalseries seriesId={podcast.id} />
+ * </Modal>
+ */
 const Modalseries = ({ seriesId }) => {
+  /**
+   * State to store the fetched series data including seasons and episodes
+   * @type {[Object|null, Function]}
+   */
   const [seriesData, setSeriesData] = useState(null);
+
+  /**
+   * State to track if data is currently being fetched
+   * @type {[boolean, Function]}
+   */
   const [loading, setLoading] = useState(false);
+
+  /**
+   * State to store any error messages that occur during data fetching
+   * @type {[string|null, Function]}
+   */
   const [error, setError] = useState(null);
 
-  // Function to fetch series data with episodes from API based on specific seriesId
+  /**
+   * Fetches series data with episodes from the podcast API based on the provided series ID.
+   * Makes an HTTP request to the podcast API and updates component state accordingly.
+   *
+   * @async
+   * @function fetchSeriesData
+   * @param {string|number} id - The series ID to fetch data for
+   * @returns {Promise<void>} A promise that resolves when the fetch operation completes
+   *
+   * @throws {Error} Throws an error if the HTTP request fails or returns non-ok status
+   *
+   * @example
+   * // Fetch data for series with ID "12345"
+   * await fetchSeriesData("12345");
+   */
   const fetchSeriesData = async (id) => {
+    // Exit early if no ID is provided
     if (!id) return;
 
     setLoading(true);
@@ -33,7 +81,13 @@ const Modalseries = ({ seriesId }) => {
     }
   };
 
-  // Fetch data when seriesId changes
+  /**
+   * Effect hook that triggers data fetching when the seriesId prop changes.
+   * Automatically fetches series data whenever a new seriesId is provided.
+   *
+   * @effect
+   * @dependency {string|number} seriesId - The series ID that triggers the effect
+   */
   useEffect(() => {
     if (seriesId) {
       console.log(`Fetching data for series ID: ${seriesId}`); // Debug log
@@ -41,7 +95,10 @@ const Modalseries = ({ seriesId }) => {
     }
   }, [seriesId]);
 
-  // Return loading state
+  /**
+   * Renders loading state with spinner and series ID
+   * @returns {JSX.Element} Loading component with progress indicator
+   */
   if (loading) {
     return (
       <div className="loading-container">
@@ -51,7 +108,10 @@ const Modalseries = ({ seriesId }) => {
     );
   }
 
-  // Return error state
+  /**
+   * Renders error state with error message and retry button
+   * @returns {JSX.Element} Error component with retry functionality
+   */
   if (error) {
     return (
       <div className="error-container">
@@ -63,7 +123,10 @@ const Modalseries = ({ seriesId }) => {
     );
   }
 
-  // Return series data content
+  /**
+   * Renders the main series data content including seasons and episodes
+   * @returns {JSX.Element} Complete series details with seasons and episodes
+   */
   if (seriesData) {
     return (
       <div className="series-details">
@@ -95,6 +158,8 @@ const Modalseries = ({ seriesId }) => {
                 {season.episodes && season.episodes.length > 0 ? (
                   <div className="episodes-list">
                     <h5>Episodes in Season {season.season}</h5>
+
+                    {/* Map through all episodes in the season */}
                     {season.episodes.map((episode, episodeIndex) => (
                       <div
                         key={`episode-${seriesId}-${season.season}-${
@@ -111,13 +176,13 @@ const Modalseries = ({ seriesId }) => {
                             {episode.description}
                           </p>
                           <div className="episode-meta">
+                            {/* Audio availability indicator */}
                             {episode.file && (
                               <span className="episode-file">
                                 🎵 Audio Available
                               </span>
                             )}
                             <span className="episode-id">
-                              Series: {seriesId} | Season: {season.season} |
                               Episode: {episode.episode}
                             </span>
                           </div>
@@ -126,6 +191,7 @@ const Modalseries = ({ seriesId }) => {
                     ))}
                   </div>
                 ) : (
+                  /* No episodes message */
                   <div className="no-episodes">
                     <p>No episodes available for Season {season.season}</p>
                   </div>
@@ -134,6 +200,7 @@ const Modalseries = ({ seriesId }) => {
             ))}
           </div>
         ) : (
+          /* No seasons message */
           <div className="no-seasons">
             <p>No seasons available for this series.</p>
           </div>
@@ -142,7 +209,10 @@ const Modalseries = ({ seriesId }) => {
     );
   }
 
-  // Return null if no data
+  /**
+   * Returns null when no data is available (initial state)
+   * @returns {null} Null component
+   */
   return null;
 };
 
